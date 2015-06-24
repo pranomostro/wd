@@ -1,5 +1,7 @@
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 int isleap(int year);
 int dayofyear(int year,int month,int day);
@@ -29,15 +31,10 @@ int dayofyear(int year,int month,int day)
 	leap=isleap(year);
 
 	if(day>daytab[leap][month]||day<=0)
-	{
-		fprintf(stderr, "error: illegal date\n");
 		return -1;
-	}
+
 	if(month>12||month<=0)
-	{
-		fprintf(stderr, "error: illegal month\n");
 		return -1;
-	}
 
 	for(i=1;i<month;i++)
 		day+=daytab[leap][i];
@@ -49,10 +46,7 @@ int dayofyear(int year,int month,int day)
 int daydiff(int orgyear,int orgday,int usryear,int usrday)
 {
 	if(orgyear<=0||usryear<=0||orgday<=0||usrday<=0)
-	{
-		fprintf(stderr, "error: negative date");
 		return -1;
-	}
 
 	int leaps=floor((float)usryear/4)-floor((float)usryear/100)+floor((float)usryear/400);
 	int years=usryear-orgyear-(isleap(usryear) ? leaps-1 : leaps);
@@ -64,28 +58,33 @@ int daydiff(int orgyear,int orgday,int usryear,int usrday)
 char* daynameof(int year,int day)
 {
 	int diff=daydiff(1,1,year,day);	 /*The first january of the year 0 was a monday*/
+
 	if(day<=0||year<=0||diff<0)
-	{
-		fprintf(stderr, "error: negative date");
 		return "illegal date";
-	}
+
 	return dayname[diff%7];
 }
 
 int main(void)
 {
 	int year,month,day;
+	char* dname;
 
 	/*scanf works perfectly here*/
 
-	puts("year:");
 	scanf("%i",&year);
-	puts("month:");
 	scanf("%i",&month);
-	puts("day:");
 	scanf("%i",&day);
 
-	printf("%i.%i.%i:%s.\n",day,month,year,daynameof(year,dayofyear(year,month,day)));
+	dname=daynameof(year,dayofyear(year,month,day));
+
+	if(strncmp(dname, "illegal date", strlen(dname))==0)
+	{
+		fprintf(stderr, "error: bad date format\n");
+		exit (1);
+	}
+
+	printf("%i.%i.%i:%s\n", day, month, year, dname);
 
 	return 0;
 }
