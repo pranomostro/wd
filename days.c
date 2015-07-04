@@ -3,6 +3,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define SSIZE 16
+
+/*Sorry for the long function, but unfortunately C does not allow multiple return values.*/
+void parseisodate(char* s, size_t len, int* year, int* month, int* day);
+void printdate(int year, int month, int day);
+
 int isleap(int year);
 int dayofyear(int year,int month,int day);
 int daydiff(int orgyear,int orgday,int usryear,int usrday);
@@ -18,6 +24,26 @@ static char* dayname[7]=
 {
 	"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
 };
+
+void parseisodate(char* s, size_t len, int* year, int* month, int* day)
+{
+	/*not written yet*/
+}
+
+void printdate(int year, int month, int day)
+{
+	char* dname;
+
+	dname=daynameof(year,dayofyear(year,month,day));
+
+	if(strncmp(dname, "illegal date", strlen(dname))==0)
+	{
+		fprintf(stderr, "error: bad date format\n");
+		exit (1);
+	}
+
+	printf("%i-%i-%i:%s\n", year, day, month, dname);
+}
 
 int isleap(int year)
 {
@@ -57,7 +83,7 @@ int daydiff(int orgyear,int orgday,int usryear,int usrday)
 
 char* daynameof(int year,int day)
 {
-	int diff=daydiff(1,1,year,day);	 /*The first january of the year 0 was a monday*/
+	int diff=daydiff(1,1,year,day);	 /*The first january of the year 1 was a monday*/
 
 	if(day<=0||year<=0||diff<0)
 		return "illegal date";
@@ -68,23 +94,21 @@ char* daynameof(int year,int day)
 int main(void)
 {
 	int year,month,day;
-	char* dname;
+	int count;
+	char input[SSIZE];
 
-	/*scanf works perfectly here*/
+	if(argc>1)
+		for(count=1; count<argc; count++)
+		{
+			parseisodate(argv[count], strlen(argv[count]), &year, &month, &day);
+			printdate(year, month, day);
+		}
 
-	scanf("%i",&year);
-	scanf("%i",&month);
-	scanf("%i",&day);
-
-	dname=daynameof(year,dayofyear(year,month,day));
-
-	if(strncmp(dname, "illegal date", strlen(dname))==0)
+	while(fgets(input, SSIZE, stdin)!=NULL)
 	{
-		fprintf(stderr, "error: bad date format\n");
-		exit (1);
+		parseisodate(input, strlen(input), &year, &month, &day);
+		printdate(year, month, day);
 	}
-
-	printf("%i.%i.%i:%s\n", day, month, year, dname);
 
 	return 0;
 }
