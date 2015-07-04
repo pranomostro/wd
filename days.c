@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <errno.h>
 
 #define SSIZE 16
 
-/*Sorry for the long function, but unfortunately C does not allow multiple return values.*/
-void parseisodate(char* s, size_t len, int* year, int* month, int* day);
 void printdate(int year, int month, int day);
-
+int parseisodate(char* s, size_t len, int* year, int* month, int* day);
 int isleap(int year);
 int dayofyear(int year,int month,int day);
 int daydiff(int orgyear,int orgday,int usryear,int usrday);
@@ -25,9 +25,25 @@ static char* dayname[7]=
 	"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
 };
 
-void parseisodate(char* s, size_t len, int* year, int* month, int* day)
+int parseisodate(char* s, size_t len, int* year, int* month, int* day)
 {
-	/*not written yet*/
+	char* t=s;
+	while(isdigit(*s)&&(unsigned)(s-t)<len)s++;
+	*s='\0';
+
+	errno=0;
+
+	*year=strtol(t, NULL, 10);
+	(++s)[2]='\0';
+	*month=strtol(s, NULL, 10);
+	*day=strtol(s, NULL, 10);
+
+	if(errno||*year<=0||*month<=0||*day<=0)
+	{
+		fprintf(stderr, "error: no useful date found, continuing.\n");
+		return 0;
+	}
+	return 1;
 }
 
 void printdate(int year, int month, int day)
@@ -91,23 +107,23 @@ char* daynameof(int year,int day)
 	return dayname[diff%7];
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
-	int year,month,day;
+	int year, month, day;
 	int count;
 	char input[SSIZE];
 
 	if(argc>1)
 		for(count=1; count<argc; count++)
 		{
-			parseisodate(argv[count], strlen(argv[count]), &year, &month, &day);
-			printdate(year, month, day);
+			if(parseisodate(argv[count], strlen(argv[count]), &year, &month, &day))
+				printdate(year, month, day);
 		}
 
 	while(fgets(input, SSIZE, stdin)!=NULL)
 	{
-		parseisodate(input, strlen(input), &year, &month, &day);
-		printdate(year, month, day);
+		if(parseisodate(input, strlen(input), &year, &month, &day))
+			printdate(year, month, day);
 	}
 
 	return 0;
