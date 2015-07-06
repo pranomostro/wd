@@ -8,7 +8,7 @@
 #define SSIZE 16
 
 void printdate(int year, int month, int day);
-int parseisodate(char* s, size_t len, int* year, int* month, int* day);
+int datefields(char* s, size_t len, int* year, int* month, int* day);
 int isleap(int year);
 int dayofyear(int year,int month,int day);
 int daydiff(int orgyear,int orgday,int usryear,int usrday);
@@ -25,18 +25,23 @@ static char* dayname[7]=
 	"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
 };
 
-int parseisodate(char* s, size_t len, int* year, int* month, int* day)
+int datefields(char* s, size_t len, int* year, int* month, int* day)
 {
-	char* t=s;
-	while(isdigit(*s)&&(unsigned)(s-t)<len)s++;
-	*s='\0';
+	char* t;
+	char* u;
+	for(t=s;*t!='-'&&(unsigned)(t-s)<len;t++);
+	u=t+3;
+
+	if(*t!='-'||*u!='-')
+		return 0;
+
+	*t++=*u++='\0'; u[2]='\0';
 
 	errno=0;
 
-	*year=strtol(t, NULL, 10);
-	(++s)[2]='\0';
-	*month=strtol(s, NULL, 10);
-	*day=strtol(s, NULL, 10);
+	*year=strtol(s, NULL, 10);
+	*month=strtol(t, NULL, 10);
+	*day=strtol(u, NULL, 10);
 
 	if(errno||*year<=0||*month<=0||*day<=0)
 	{
@@ -58,7 +63,7 @@ void printdate(int year, int month, int day)
 		exit (1);
 	}
 
-	printf("%i-%i-%i:%s\n", year, day, month, dname);
+	printf("%i-%i-%i:%s\n", year, month, day, dname);
 }
 
 int isleap(int year)
@@ -114,17 +119,16 @@ int main(int argc, char** argv)
 	char input[SSIZE];
 
 	if(argc>1)
+	{
 		for(count=1; count<argc; count++)
-		{
-			if(parseisodate(argv[count], strlen(argv[count]), &year, &month, &day))
+			if(datefields(argv[count], strlen(argv[count]), &year, &month, &day))
 				printdate(year, month, day);
-		}
+		return 0;
+	}
 
 	while(fgets(input, SSIZE, stdin)!=NULL)
-	{
-		if(parseisodate(input, strlen(input), &year, &month, &day))
+		if(datefields(input, strlen(input), &year, &month, &day))
 			printdate(year, month, day);
-	}
 
 	return 0;
 }
