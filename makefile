@@ -7,15 +7,13 @@ CC = gcc
 CFLAGS = -Wall -W -Wextra -O3 -fexpensive-optimizations -funroll-loops -fno-builtin -s -ansi -pedantic -std=c99
 LIBS = -lm
 
-all: ${TARGET} verf
-	@echo made ${TARGET} and verf
+all: ${TARGET}
+	@echo made ${TARGET}
 ${TARGET}: ${TARGET}.c
 	${CC} ${CFLAGS} ${TARGET}.c ${LIBS} -o ${TARGET}
-verf: verf.c
-	${CC} ${CFLAGS} verf.c ${LIBS} -o verf
 
 clean:
-	rm -rf ${TARGET} verf
+	rm -rf ${TARGET}
 
 install: all
 	cp ${TARGET} ${PREFIX}/bin
