@@ -1,7 +1,7 @@
-#Makefile for the days program.
+#Makefile for the wd program.
 
 PREFIX = /usr
-TARGET = days
+TARGET = wd
 
 CC = gcc
 CFLAGS = -Wall -W -Wextra -O3 -fexpensive-optimizations -funroll-loops -fno-builtin -s -ansi -pedantic -std=c99
