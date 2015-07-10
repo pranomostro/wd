@@ -1,11 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include <errno.h>
-
-#define SSIZE 16
 
 void ainput(char* s);
 void printdate(int year, int month, int day);
@@ -106,7 +102,7 @@ char* daynameof(int year,int day)
 int main(int argc, char** argv)
 {
 	int count;
-	char input[SSIZE];
+	char input[16];
 
 	if(argc>1)
 	{
@@ -115,7 +111,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
-	while(fgets(input, SSIZE, stdin)!=NULL)
+	while(fgets(input, 16, stdin)!=NULL)
 		ainput(input);
 
 	return 0;
