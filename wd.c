@@ -7,11 +7,13 @@
 
 #define SSIZE 16
 
+void ainput(char* s);
 void printdate(int year, int month, int day);
-int datefields(char* s, size_t len, int* year, int* month, int* day);
+
 int isleap(int year);
 int dayofyear(int year,int month,int day);
 int daydiff(int orgyear,int orgday,int usryear,int usrday);
+
 char* daynameof(int year,int day);
 
 static char daytab[2][13]=
@@ -25,30 +27,19 @@ static char* dayname[7]=
 	"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
 };
 
-int datefields(char* s, size_t len, int* year, int* month, int* day)
+void ainput(char* s)
 {
-	char* t;
-	char* u;
-	for(t=s;*t!='-'&&(unsigned)(t-s)<len;t++);
-	u=t+3;
-
-	if(*t!='-'||*u!='-')
-		return 0;
-
-	*t++=*u++='\0'; u[2]='\0';
-
+	int year, month, day;
 	errno=0;
+	sscanf(s, "%d-%d-%d", &year, &month, &day);
 
-	*year=strtol(s, NULL, 10);
-	*month=strtol(t, NULL, 10);
-	*day=strtol(u, NULL, 10);
-
-	if(errno||*year<=0||*month<=0||*day<=0)
+	if(errno)
 	{
-		fprintf(stderr, "error: no useful date found, continuing.\n");
-		return 0;
+		fprintf(stderr, "error: no date of format YEAR-MONTH-DAY found");
+		return;
 	}
-	return 1;
+
+	printdate(year, month, day);
 }
 
 void printdate(int year, int month, int day)
@@ -60,7 +51,7 @@ void printdate(int year, int month, int day)
 	if(strncmp(dname, "illegal date", strlen(dname))==0)
 	{
 		fprintf(stderr, "error: bad date format\n");
-		exit (1);
+		return;
 	}
 
 	printf("%i-%i-%i:%s\n", year, month, day, dname);
@@ -114,21 +105,18 @@ char* daynameof(int year,int day)
 
 int main(int argc, char** argv)
 {
-	int year, month, day;
 	int count;
 	char input[SSIZE];
 
 	if(argc>1)
 	{
 		for(count=1; count<argc; count++)
-			if(datefields(argv[count], strlen(argv[count]), &year, &month, &day))
-				printdate(year, month, day);
+			ainput(argv[count]);
 		return 0;
 	}
 
 	while(fgets(input, SSIZE, stdin)!=NULL)
-		if(datefields(input, strlen(input), &year, &month, &day))
-			printdate(year, month, day);
+		ainput(input);
 
 	return 0;
 }
