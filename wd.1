@@ -1,20 +1,20 @@
 .TH DAYS 1
 .SH NAME
-\fBdays\fR \- find the weekday of a date
+\fBwd\fR \- find the weekday of a date
 
 .SH SYNOPSIS
-\fBdays\fR [DATES]
+\fBwd\fR [DATES]
 
 .SH DESCRIPTION
-\fBdays\fR is a utility that takes dates and prints the day of the
+\fBwd\fR is a utility that takes dates and prints the day of the
 week according to it's arguments.
-If days is not called with any arguments, it reads one date per line from the standard input, if given any arguments, it takes these and prints the result.
+If wd is not called with any arguments, it reads one date per line from the standard input, if given any arguments, it takes these and prints the result.
 An argument must have the form YEAR-MONTH-DAY (here, YEAR can be any integer, MONTH and DAY can only have two digits). The result has the form YEAR-MONTH-DAY:WEEKDAY.
 
 .SH EXAMPLES
-\fBdays 2015-07-07\fR gives the result \fB2015-07-07:Tuesday\fR
+\fBwd 2015-07-07\fR gives the result \fB2015-07-07:Tuesday\fR
 .P
-\fBdays 16777213-08-13\fR results in \fB16777213-8-13:Friday\fR
+\fBwd 16777213-08-13\fR results in \fB16777213-8-13:Friday\fR
 
 .SH BUGS
 The code sucks.
