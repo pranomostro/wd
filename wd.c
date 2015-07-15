@@ -9,7 +9,7 @@ void printdate(uint64_t year, uint64_t month, uint64_t day);
 
 int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day);
 uint64_t isleap(uint64_t year);
-uint64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday);
+int64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday);
 
 char* daynameof(uint64_t year,uint64_t day);
 
@@ -30,7 +30,7 @@ void ainput(char* s)
 	errno=0;
 	sscanf(s, "%lu-%lu-%lu", &year, &month, &day);
 
-	if(errno)
+	if(errno||!year||!month||!day)
 	{
 		fprintf(stderr, "error: no date of format YEAR-MONTH-DAY found");
 		return;
@@ -65,10 +65,7 @@ int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day)
 
 	leap=isleap(year);
 
-	if(day>daytab[leap][month]||day<=0)
-		return -1;
-
-	if(month>12||month<=0)
+	if(day>daytab[leap][month]||month>12)
 		return -1;
 
 	for(i=1;i<month;i++)
@@ -78,23 +75,23 @@ int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day)
 
 /*Negative dates are not handled yet*/
 
-uint64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday)
+int64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday)
 {
 	if(!orgyear||!usryear||!orgday||!usrday)
 		return -1;
 
-	uint64_t leaps=floor((float)usryear/4)-floor((float)usryear/100)+floor((float)usryear/400);
-	uint64_t years=usryear-orgyear-(isleap(usryear) ? leaps-1 : leaps);
-	uint64_t days=(years* 365)+((isleap(usryear) ? leaps-1 : leaps)*366)+usrday-orgday;
+	uint64_t leaps=(usryear/4)-(usryear/100)+(usryear/400)+isleap(usryear);
+	uint64_t years=usryear-orgyear-leaps;
+	uint64_t days=(years* 365)+(leaps*366)+usrday-orgday;
 
 	return days;
 }
 
 char* daynameof(uint64_t year,uint64_t day)
 {
-	uint64_t diff=daydiff(1,1,year,day);	 /*The first january of the year 1 was a monday*/
+	int64_t diff=daydiff(1,1,year,day);	 /*The first january of the year 1 was a monday*/
 
-	if(day<=0||year<=0)
+	if(diff<0)
 		return "illegal date";
 
 	return dayname[diff%7];

@@ -9,12 +9,12 @@
 \fBwd\fR is a utility that takes dates and prints the day of the
 week according to it's arguments.
 If wd is not called with any arguments, it reads one date per line from the standard input, if given any arguments, it takes these and prints the results.
-An argument must have the form YEAR-MONTH-DAY. The result has the form YEAR-MONTH-DAY:WEEKDAY.
+An argument must have the form YEAR-MONTH-DAY (all of them have to be >=1). The result has the form YEAR-MONTH-DAY:WEEKDAY.
 
 .SH EXAMPLES
 \fBwd 2015-07-07\fR gives the result \fB2015-07-07:Tuesday\fR
 .P
-\fBwd 16777213-08-13\fR results in \fB16777213-8-13:Friday\fR
+\fBwd 16777213-08-13\fR results in \fB16777213-8-14:Wednesday\fR
 
 .SH BUGS
 The code sucks.
