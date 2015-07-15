@@ -2,17 +2,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <inttypes.h>
 
 void ainput(char* s);
-void printdate(int year, int month, int day);
+void printdate(uint64_t year, uint64_t month, uint64_t day);
 
-int isleap(int year);
-int dayofyear(int year,int month,int day);
-int daydiff(int orgyear,int orgday,int usryear,int usrday);
+int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day);
+uint64_t isleap(uint64_t year);
+uint64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday);
 
-char* daynameof(int year,int day);
+char* daynameof(uint64_t year,uint64_t day);
 
-static char daytab[2][13]=
+static uint64_t daytab[2][13]=
 {
 	{0,31,28,31,30,31,30,31,31,30,31,30,31},
 	{0,31,29,31,30,31,30,31,31,30,31,30,31}
@@ -25,9 +26,9 @@ static char* dayname[7]=
 
 void ainput(char* s)
 {
-	int year, month, day;
+	uint64_t year, month, day;
 	errno=0;
-	sscanf(s, "%d-%d-%d", &year, &month, &day);
+	sscanf(s, "%lu-%lu-%lu", &year, &month, &day);
 
 	if(errno)
 	{
@@ -38,7 +39,7 @@ void ainput(char* s)
 	printdate(year, month, day);
 }
 
-void printdate(int year, int month, int day)
+void printdate(uint64_t year, uint64_t month, uint64_t day)
 {
 	char* dname;
 
@@ -50,17 +51,17 @@ void printdate(int year, int month, int day)
 		return;
 	}
 
-	printf("%i-%i-%i:%s\n", year, month, day, dname);
+	printf("%lu-%lu-%lu:%s\n", year, month, day, dname);
 }
 
-int isleap(int year)
+uint64_t isleap(uint64_t year)
 {
 	return ((year%4==0&&year%100!=0)||(year%400==0));
 }
 
-int dayofyear(int year,int month,int day)
+int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day)
 {
-	int i,leap;
+	uint64_t i,leap;
 
 	leap=isleap(year);
 
@@ -77,23 +78,23 @@ int dayofyear(int year,int month,int day)
 
 /*Negative dates are not handled yet*/
 
-int daydiff(int orgyear,int orgday,int usryear,int usrday)
+uint64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday)
 {
-	if(orgyear<=0||usryear<=0||orgday<=0||usrday<=0)
+	if(!orgyear||!usryear||!orgday||!usrday)
 		return -1;
 
-	int leaps=floor((float)usryear/4)-floor((float)usryear/100)+floor((float)usryear/400);
-	int years=usryear-orgyear-(isleap(usryear) ? leaps-1 : leaps);
-	int days=(years* 365)+((isleap(usryear) ? leaps-1 : leaps)*366)+usrday-orgday;
+	uint64_t leaps=floor((float)usryear/4)-floor((float)usryear/100)+floor((float)usryear/400);
+	uint64_t years=usryear-orgyear-(isleap(usryear) ? leaps-1 : leaps);
+	uint64_t days=(years* 365)+((isleap(usryear) ? leaps-1 : leaps)*366)+usrday-orgday;
 
 	return days;
 }
 
-char* daynameof(int year,int day)
+char* daynameof(uint64_t year,uint64_t day)
 {
-	int diff=daydiff(1,1,year,day);	 /*The first january of the year 1 was a monday*/
+	uint64_t diff=daydiff(1,1,year,day);	 /*The first january of the year 1 was a monday*/
 
-	if(day<=0||year<=0||diff<0)
+	if(day<=0||year<=0)
 		return "illegal date";
 
 	return dayname[diff%7];
@@ -101,7 +102,7 @@ char* daynameof(int year,int day)
 
 int main(int argc, char** argv)
 {
-	int count;
+	int64_t count;
 	char input[16];
 
 	if(argc>1)
