@@ -2,18 +2,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <inttypes.h>
+
+typedef unsigned long ulong;
 
 void ainput(char* s);
-void printdate(uint64_t year, uint64_t month, uint64_t day);
+void printdate(ulong year, ulong month, ulong day);
 
-int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day);
-uint64_t isleap(uint64_t year);
-int64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday);
+ulong isleap(ulong year);
+long dayofyear(ulong year,ulong month,ulong day);
+long daydiff(ulong orgyear,ulong orgday,ulong usryear,ulong usrday);
 
-char* daynameof(uint64_t year,uint64_t day);
+char* daynameof(ulong year,ulong day);
 
-static uint64_t daytab[2][13]=
+static unsigned daytab[2][13]=
 {
 	{0,31,28,31,30,31,30,31,31,30,31,30,31},
 	{0,31,29,31,30,31,30,31,31,30,31,30,31}
@@ -26,20 +27,20 @@ static char* dayname[7]=
 
 void ainput(char* s)
 {
-	uint64_t year, month, day;
+	ulong year, month, day;
 	errno=0;
 	sscanf(s, "%lu-%lu-%lu", &year, &month, &day);
 
 	if(errno||!year||!month||!day)
 	{
-		fprintf(stderr, "error: no date of format YEAR-MONTH-DAY found");
+		fprintf(stderr, "error: no date of format YEAR-MONTH-DAY found\n");
 		return;
 	}
 
 	printdate(year, month, day);
 }
 
-void printdate(uint64_t year, uint64_t month, uint64_t day)
+void printdate(ulong year, ulong month, ulong day)
 {
 	char* dname;
 
@@ -54,14 +55,14 @@ void printdate(uint64_t year, uint64_t month, uint64_t day)
 	printf("%lu-%lu-%lu:%s\n", year, month, day, dname);
 }
 
-uint64_t isleap(uint64_t year)
+ulong isleap(ulong year)
 {
 	return ((year%4==0&&year%100!=0)||(year%400==0));
 }
 
-int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day)
+long dayofyear(ulong year,ulong month,ulong day)
 {
-	uint64_t i,leap;
+	ulong i,leap;
 
 	leap=isleap(year);
 
@@ -75,21 +76,21 @@ int64_t dayofyear(uint64_t year,uint64_t month,uint64_t day)
 
 /*Negative dates are not handled yet*/
 
-int64_t daydiff(uint64_t orgyear,uint64_t orgday,uint64_t usryear,uint64_t usrday)
+long daydiff(ulong orgyear,ulong orgday,ulong usryear,ulong usrday)
 {
 	if(!orgyear||!usryear||!orgday||!usrday)
 		return -1;
 
-	uint64_t leaps=(usryear/4)-(usryear/100)+(usryear/400)+isleap(usryear);
-	uint64_t years=usryear-orgyear-leaps;
-	uint64_t days=(years* 365)+(leaps*366)+usrday-orgday;
+	ulong leaps=(usryear/4)-(usryear/100)+(usryear/400)+isleap(usryear);
+	ulong years=usryear-orgyear-leaps;
+	ulong days=(years* 365)+(leaps*366)+usrday-orgday;
 
 	return days;
 }
 
-char* daynameof(uint64_t year,uint64_t day)
+char* daynameof(ulong year,ulong day)
 {
-	int64_t diff=daydiff(1,1,year,day);	 /*The first january of the year 1 was a monday*/
+	long diff=daydiff(1,1,year,day);	 /*the first january of the year 1 was a monday*/
 
 	if(diff<0)
 		return "illegal date";
@@ -99,7 +100,7 @@ char* daynameof(uint64_t year,uint64_t day)
 
 int main(int argc, char** argv)
 {
-	int64_t count;
+	long count;
 	char input[16];
 
 	if(argc>1)
