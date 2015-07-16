@@ -9,20 +9,20 @@ void ainput(char* s);
 void printdate(ulong year, ulong month, ulong day);
 
 ulong isleap(ulong year);
-long dayofyear(ulong year,ulong month,ulong day);
-long daydiff(ulong orgyear,ulong orgday,ulong usryear,ulong usrday);
+long dayofyear(ulong year, ulong month, ulong day);
+long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday);
 
-char* daynameof(ulong year,ulong day);
+char* daynameof(ulong year, ulong day);
 
 static unsigned daytab[2][13]=
 {
-	{0,31,28,31,30,31,30,31,31,30,31,30,31},
-	{0,31,29,31,30,31,30,31,31,30,31,30,31}
+	{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+	{0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
 };
 
 static char* dayname[7]=
 {
-	"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
+	"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
 };
 
 void ainput(char* s)
@@ -44,7 +44,7 @@ void printdate(ulong year, ulong month, ulong day)
 {
 	char* dname;
 
-	dname=daynameof(year,dayofyear(year,month,day));
+	dname=daynameof(year, dayofyear(year, month, day));
 
 	if(strncmp(dname, "illegal date", strlen(dname))==0)
 	{
@@ -60,9 +60,9 @@ ulong isleap(ulong year)
 	return ((year%4==0&&year%100!=0)||(year%400==0));
 }
 
-long dayofyear(ulong year,ulong month,ulong day)
+long dayofyear(ulong year, ulong month, ulong day)
 {
-	ulong i,leap;
+	ulong i, leap;
 
 	leap=isleap(year);
 
@@ -76,7 +76,7 @@ long dayofyear(ulong year,ulong month,ulong day)
 
 /*Negative dates are not handled yet*/
 
-long daydiff(ulong orgyear,ulong orgday,ulong usryear,ulong usrday)
+long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 {
 	if(!orgyear||!usryear||!orgday||!usrday)
 		return -1;
@@ -88,9 +88,9 @@ long daydiff(ulong orgyear,ulong orgday,ulong usryear,ulong usrday)
 	return days;
 }
 
-char* daynameof(ulong year,ulong day)
+char* daynameof(ulong year, ulong day)
 {
-	long diff=daydiff(1,1,year,day);	 /*the first january of the year 1 was a monday*/
+	long diff=daydiff(1, 1, year, day);	 /*the first january of the year 1 was a monday*/
 
 	if(diff<0)
 		return "illegal date";
