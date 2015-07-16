@@ -4,7 +4,8 @@ PREFIX = /usr
 TARGET = wd
 
 CC = gcc
-CFLAGS = -Wall -W -Wextra -O3 -fexpensive-optimizations -funroll-loops -fno-builtin -s -ansi -pedantic -std=c99
+CFLAGS = -Wall -W -Wextra -O3 -fexpensive-optimizations\
+-funroll-loops -fno-builtin -s -ansi -pedantic -std=c99
 LIBS = -lm
 
 all: ${TARGET}

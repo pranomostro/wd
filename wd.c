@@ -90,7 +90,7 @@ long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 
 char* daynameof(ulong year, ulong day)
 {
-	long diff=daydiff(1, 1, year, day);	 /*the first january of the year 1 was a monday*/
+	long diff=daydiff(1, 1, year, day);	 /*1-1-1 was a monday*/
 
 	if(diff<0)
 		return "illegal date";
