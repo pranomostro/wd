@@ -9,7 +9,7 @@ CFLAGS = -Wall -W -Wextra -O3 -fexpensive-optimizations\
 LIBS = -lm
 
 all: ${TARGET}
-	@echo made ${TARGET}
+
 ${TARGET}: ${TARGET}.c
 	${CC} ${CFLAGS} ${TARGET}.c ${LIBS} -o ${TARGET}
 
