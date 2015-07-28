@@ -6,9 +6,7 @@
 typedef unsigned long ulong;
 
 void aninput(char* s);
-
 short isleap(ulong year);
-
 long dayofyear(ulong year, ulong month, ulong day);
 long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday);
 
@@ -36,7 +34,7 @@ void aninput(char* s)
 		fprintf(stderr, "error: no date of format YEAR-MONTH-DAY found\n");
 		return;
 	}
-
+	/*1-1-1 was a monday*/
 	diff=daydiff(1, 1, year, dayofyear(year, month, day));
 
 	if(diff<0)
@@ -66,8 +64,6 @@ long dayofyear(ulong year, ulong month, ulong day)
 		day+=daytab[leap][i];
 	return day;
 }
-
-/*Negative dates are not handled yet*/
 
 long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 {
