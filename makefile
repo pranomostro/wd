@@ -1,6 +1,6 @@
 #Makefile for the wd program.
 
-PREFIX = /usr
+PREFIX = /usr/local
 TARGET = wd
 
 CC = gcc
