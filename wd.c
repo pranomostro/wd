@@ -67,17 +67,16 @@ long dayofyear(ulong year, ulong month, ulong day)
 
 long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 {
+	ulong leaps, years, days;
 	if(!orgyear||!usryear||!orgday||!usrday)
 		return -1;
 
-	ulong leaps=(usryear/4)-(usryear/100)+(usryear/400)+isleap(usryear);
-	ulong years=usryear-orgyear-leaps;
-	ulong days=(years* 365)+(leaps*366)+usrday-orgday;
+	leaps=(usryear/4)-(usryear/100)+(usryear/400)+isleap(usryear);
+	years=usryear-orgyear-leaps;
+	days=(years* 365)+(leaps*366)+usrday-orgday;
 
 	return days;
 }
-
-
 
 int main(int argc, char** argv)
 {
