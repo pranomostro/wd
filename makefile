@@ -4,8 +4,7 @@ PREFIX = /usr/local
 TARGET = wd
 
 CC = gcc
-CFLAGS = -Wall -W -Wextra -O3 -fexpensive-optimizations\
--funroll-loops -fno-builtin -s -ansi -pedantic -std=c89
+CFLAGS = -Wall -std=c99 -pedantic
 LIBS = -lm
 
 all: ${TARGET}
@@ -17,8 +16,11 @@ clean:
 	rm -rf ${TARGET}
 
 install: all
+	mkdir -p ${PREFIX}/bin ${PREFIX}/share/man/man1
 	cp ${TARGET} ${PREFIX}/bin
 	cp ${TARGET}.1 ${PREFIX}/share/man/man1
+	chmod 755 ${PREFIX}/bin/${TARGET}
+	chmod 644 ${PREFIX}/share/man/man1/${TARGET}.1
 
 uninstall:
 	rm -f ${PREFIX}/bin/${TARGET}
