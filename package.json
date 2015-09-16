@@ -1,0 +1,9 @@
+{
+	"name": "wd",
+	"version": "0.4",
+	"repo": "scharlatan/wd",
+	"description": "prints the weekdays for ISO 8601 formatted input lines",
+	"keywords": ["utility", "dates", "filter"],
+	"license": "MIT",
+	"install": "make install"
+}
