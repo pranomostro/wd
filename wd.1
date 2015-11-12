@@ -1,23 +1,26 @@
 .TH DAYS 1
 .SH NAME
-\fBwd\fR \- find the weekday of a date
+wd \- find the weekday of a date
 
 .SH SYNOPSIS
-\fBwd\fR [DATES]
+wd [DATES]
 
 .SH DESCRIPTION
-\fBwd\fR is a utility that takes dates and prints the day of the
+wd is a utility that takes dates and prints the day of the
 week according to it's arguments.
 If wd is not called with any arguments, it reads one date per
 line from the standard input, if given any arguments, it takes these and
 prints the results. An argument must have the form YEAR-MONTH-DAY
-(all of them have to be >=1). The result has the form
+(all of them have to be >=1). The output has the form
 YEAR-MONTH-DAY:WEEKDAY.
 
 .SH EXAMPLES
-\fBwd 2015-07-07\fR gives the result \fB2015-07-07:Tuesday\fR
-.P
-\fBwd 16777213-08-14\fR results in \fB16777214-8-14:Wednesday\fR
+.TP
+.B wd 2015-07-07
+gives the result 2015-07-07:Tuesday
+.TP
+.B wd 16777213-08-14
+results in 16777214-8-14:Wednesday
 
 .SH BUGS
 The code sucks.
