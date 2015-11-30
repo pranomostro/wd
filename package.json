@@ -2,8 +2,10 @@
 	"name": "wd",
 	"version": "0.4",
 	"repo": "scharlatan/wd",
-	"description": "prints the weekdays for ISO 8601 formatted input lines",
-	"keywords": ["utility", "dates", "filter"],
+	"description": "printf the weekday for ISO 8601 formatted input lines",
 	"license": "MIT",
-	"install": "make install"
+	"install": "make install",
+	"makefile": "makefile",
+	"keywords": ["utility", "dates", "filter"],
+	"src": ["wd.c"]
 }
