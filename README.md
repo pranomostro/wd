@@ -8,7 +8,7 @@ For example:
 The date has to have the format YEAR-MONTH-DAY,
 somewhat similar to ISO 8601.
 Unlike ISO 8601 this allows years bigger than 5 digits.
-wd(1) does not allow negative years or the year 0.
+wd does not allow negative years or the year 0.
 
 For more information, consult your local manpage.
 
