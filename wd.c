@@ -6,8 +6,8 @@
 typedef unsigned long ulong;
 
 short isleap(ulong year);
-long dayofyear(ulong year, ulong month, ulong day);
-long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday);
+ulong dayofyear(ulong year, ulong month, ulong day);
+ulong daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday);
 
 static unsigned daytab[2][13]=
 {
@@ -25,7 +25,7 @@ short isleap(ulong year)
 	return ((year%4==0&&year%100!=0)||(year%400==0));
 }
 
-long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
+ulong daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 {
 	ulong leaps, years, days;
 
@@ -36,7 +36,7 @@ long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 	return days;
 }
 
-long dayofyear(ulong year, ulong month, ulong day)
+ulong dayofyear(ulong year, ulong month, ulong day)
 {
 	ulong i;
 
