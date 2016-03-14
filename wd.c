@@ -81,7 +81,7 @@ long daydiff(ulong orgyear, ulong orgday, ulong usryear, ulong usrday)
 int main(int argc, char** argv)
 {
 	long count;
-	char input[16];
+	char input[BUFSIZ];
 
 	if(argc>1)
 	{
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
-	while(fgets(input, 16, stdin)!=NULL)
+	while(fgets(input, BUFSIZ, stdin)!=NULL)
 		aninput(input);
 
 	return 0;
