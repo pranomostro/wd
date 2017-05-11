@@ -1,37 +1,37 @@
-.TH DAYS 1
-.SH NAME
-wd \- find the weekday of a date
+.Dd May 11, 2017
+.Dt WD 1
+.Os
 
-.SH SYNOPSIS
-wd [dates]
+.Sh NAME
+.Nm wd
+.Nd find the weekday of a date
 
-.SH DESCRIPTION
-wd is a utility that takes dates and prints the day of the week according
-to it's arguments.
-If wd is not called with any arguments, it reads one date per line from
-the standard input, if given any arguments, it takes these and prints
-the results. An argument must have the form YEAR-MONTH-DAY (all of them
-have to be >=1). The output has the form YEAR-MONTH-DAY:WEEKDAY.
+.Sh SYNOPSIS
+.Nm
+.Op Ar dates
 
-.SH EXAMPLES
-.PP
-.fi
-.RS
-$ wd 2015-07-07
-.RE
-.fi
-gives the result 2015-07-07:Tuesday.
-.PP
-.fi
-.RS
-$ wd 16777213-08-14
-.RE
-.fi
-results in 16777214-8-14:Wednesday.
+.Sh DESCRIPTION
+.Nm
+takes dates and prints their weekdays. If wd is called without any
+arguments, it reads one date per line from stdin, otherwise it prints
+the weekdays of the arguments.
+.Pp
+An argument must have the form YEAR-MONTH-DAY (all of them must be >=1).
+The output has the form YEAR-MONTH-DAY:WEEKDAY.
 
-.SH BUGS
-None known at the moment.
+.Sh EXAMPLES
+Print the weekday of two dates:
+.Pp
+.Dl $ wd 2015-07-07 16777213-08-14
+.Dl 2015-07-07:Tuesday
+.Dl 16777213-08-14:Wedneyday
 
-.SH AUTHOR
-pranomostro (pranomestro@gmail.com)
+.Sh EXIT STATUS
+.Ex -std
 
+.Sh SEE ALSO
+.Xr cal ,
+.Xr date 1 .
+
+.Sh AUTHORS
+.An pranomostro Aq Mt pranomestro@gmail.com
