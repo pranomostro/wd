@@ -10,7 +10,7 @@ output:
 	2015-12-1:Tuesday
 
 The date has to have the format YEAR-MONTH-DAY, conforming to a subset
-of ISO 8601 (but accepting years longer than 5 digits).  wd does not
+of ISO 8601 (but accepting years longer than 5 digits). wd does not
 allow negative years or the year 0.
 
 For more information, consult your local manpage.
