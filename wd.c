@@ -65,12 +65,14 @@ int main(int argc, char** argv)
 				dayname[daydiff(1, 1, year, dayofyear(year, month, day))%7]);
 		}
 	else
-		while(scanf("%lu-%lu-%lu", &year, &month, &day)!=EOF)
+		while(!feof(stdin))
 		{
+			scanf("%lu-%lu-%lu", &year, &month, &day);
 			if(errno||!year||!month||month>12||!day||day>daytab[isleap(year)][month])
 			{
 				fprintf(stderr, "error: no date of format YEAR-MONTH-DAY found\n");
-				while((c=fgetc(stdin))!=EOF&&c!='\n');
+				while(!feof(stdin)&&(c=fgetc(stdin))!='\n');
+				errno=0;
 				continue;
 			}
 			printf("%lu-%lu-%lu:%s\n", year, month, day,
